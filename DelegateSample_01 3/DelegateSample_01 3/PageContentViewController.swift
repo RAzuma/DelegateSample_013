@@ -199,8 +199,19 @@ class PageContentViewController: UIViewController, AVAudioPlayerDelegate {
         super.viewWillAppear(animated)
         
         nextbackHidden()
-        test1()
-        test2(soundSetting: soundSetting)
+        // 2018/09/18 r-azuma
+        // test1()とtest2()をコメントアウト
+        // delegateを使わずに各プロパティで持っているsoundSettingなどの値を元に変化させる際の名残？
+        // PageViewControllerのdelegate処理から呼び出されたメソッドによって背景やボタンの変化は
+        // きちんと呼ばれているがsoundSettingやsoundRateの値は変わっていないため
+        // このViewControllerを表示する際にviewWillAppearを通って再度test1()やtest2()が呼ばれてしまうため
+        // 元の状態に戻ってしまっている。
+        // 
+        // soundSettingを使いたい場合にはdelegate処理部でtest1()やtest2()を呼ぶ代わりに
+        // soundSettingやsoundRateの値を書き換えてやってviewWillAppearを通った際に中のコンテンツが変わるように
+        // してやるような方法も考えられる。
+//        test1()
+//        test2(soundSetting: soundSetting)
         
         print("pcvcのAppear S: \(soundSetting)")
         print("pcvcのAppear R: \(soundRate)")

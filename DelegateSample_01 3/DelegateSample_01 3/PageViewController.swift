@@ -141,11 +141,22 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource,U
     
     // testDelegate
     func test(soundSetting: Int) {
+        // 2018/09/18 r-azuma
+        // delegateを使用する際の考え方としては正しいです。
+        // あくまでも戻ってくるのはこの場所なのでここで操作できることを前提としてコードを書きます。
+        // 今回の場合は設定値のようなものなのでdelegateを使う必要はあまりないかもしれません？
+        // 他のクラスで何かしら処理が行われたときに処理を行いたい場合に使われることが多いです。
+        // 設定値として使いたくない（あくまでアプリ起動してから操作されることによって処理させたい）のであればアリかもしれません。
         for content in contentVCs {
             let contents = content as? PageContentViewController        // 追加コード★★★
             contents?.setBackGroundColor(soundSetting: soundSetting)
             contents?.test1()
-            contents?.test2(soundSetting: soundSetting)                 
+            contents?.test2(soundSetting: soundSetting)
+            // 2018/09/18 r-azuma soundSettingを使う場合
+            // viewWillAppearのtest1()とtest2()は復活させる。
+            // 上のcontents?.test1()とcontents?.test2(soundSetting: soundSetting)はいらない代わりに
+            // contents?.soundSetting = soundSetting
+            // を設定してやる。
             print("テストデリゲート: \(contents)")
         }
     }
